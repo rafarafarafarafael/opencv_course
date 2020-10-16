@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.16) #Change the Cmake version number according to your installed version
+
+#Name of the project. I have named it "read_image"
+project(read_image) 
+
+set(CMAKE_CXX_STANDARD 14)
+
+#Creating a Cmake variable that points to location of CVConfig files.
+set(OpenCV_DIR "C:\\opencv-4.1.0\\") 
+
+#Displays variable. Helpful for debug
+message(STATUS \({OpenCV_DIR}) 
+
+#Searches for libraries. Command fails if libs not found
+find_package(OpenCV COMPONENTS core imgproc highgui imgcodecs REQUIRED) 
+
+#Displays libraries that are found and will be linked
+message(STATUS \({OpenCV_LIBS}) 
+
+#Creates executable read_image. Include all CPP files that must be compiled (space separated)
+add_executable(read_image 001_read_image.cpp) 
+
+#Include directory for OpenCV headers
+target_include_directories(read_image PRIVATE "C:\\opencv-4.1.0\\include\\") 
+
+target_link_libraries(read_image PUBLIC ${OpenCV_LIBS}) 
+#Link various shared libraries pointed by OpenCV_LIBS
