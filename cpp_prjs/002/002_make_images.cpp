@@ -18,9 +18,12 @@ int main(){
 
     showImage("Original", orig_img);
 
-    // create a slice of that image
+    // create a slice or cropped area of that image
     cv::Mat img_slice = orig_img(cv::Range(40, 200), cv::Range(170, 320));
     showImage("Slice", img_slice);
+
+    cv::Mat another_slice = orig_img(cv::Rect(170, 40, 120, 130)); // using Rect function instead of Range
+    showImage("Another Slice", another_slice);
 
     // create a copy of an image
     cv::Mat orig_copy = orig_img.clone();
