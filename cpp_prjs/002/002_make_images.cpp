@@ -1,7 +1,9 @@
 #include <iostream>
+#include <vector>
 #include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
+#include <opencv2/imgcodecs.hpp>
 
 void showImage(const std::string & win, cv::Mat & img){
     cv::namedWindow(win);
@@ -68,8 +70,18 @@ int main(){
     showImage("Red Mask", red_mask);
 
     // write all these images out
+    std::vector<int> jpeg_params;
+    jpeg_params.push_back(cv::IMWRITE_JPEG_QUALITY);
+    jpeg_params.push_back(100);
 
-
+    cv::imwrite(".\\images\\slice.jpg", img_slice, jpeg_params);
+    cv::imwrite(".\\images\\another_slice.jpg", another_slice, jpeg_params);
+    cv::imwrite(".\\images\\copy.jpg", orig_copy, jpeg_params);
+    cv::imwrite(".\\images\\empty.jpg", empty_matrix, jpeg_params);
+    cv::imwrite(".\\images\\yellow.jpg", yellow_img, jpeg_params);
+    cv::imwrite(".\\images\\scale_by_size.jpg", img_scale_size, jpeg_params);
+    cv::imwrite(".\\images\\scale_by_factor.jpg", img_scale_factor, jpeg_params);
+    cv::imwrite(".\\images\\red_mask.jpg", red_mask, jpeg_params);
 
     return 0;
 }
