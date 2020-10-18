@@ -63,6 +63,9 @@ int main(){
     showImage("Scaled by Factor", img_scale_factor);    
 
     // mask images using a color range
+    cv::Mat red_mask = cv::Mat::zeros(orig_img.size(), orig_img.type());
+    cv::inRange(orig_img, cv::Scalar(0, 0, 150), cv::Scalar(100, 100, 255), red_mask);
+    showImage("Red Mask", red_mask);
 
     // write all these images out
 
