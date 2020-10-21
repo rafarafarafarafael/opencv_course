@@ -1,6 +1,6 @@
 .vscode
-*.code-workspace
 build
-*.obj
 cpp_prjs\images
 notebooks
+*.code-workspace
+*.obj
