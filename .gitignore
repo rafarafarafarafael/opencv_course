@@ -2,3 +2,5 @@
 *.code-workspace
 build
 *.obj
+images
+notebooks
