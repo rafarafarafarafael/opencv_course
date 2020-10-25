@@ -1,0 +1,20 @@
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+
+void showImage(const std::string & win, cv::Mat & img){
+    cv::namedWindow(win);
+    cv::imshow(win, img);
+    cv::waitKey();
+    cv::destroyAllWindows();
+}
+
+int main(){
+    const std::string face_image_path = "./images/musk.jpg";
+    cv::Mat musk = cv::imread(face_image_path);
+
+    showImage("Elon Musk", musk);
+
+    return 0;
+}
