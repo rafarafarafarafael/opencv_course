@@ -39,40 +39,36 @@ int main(){
 
     // create scaled version of the sunglasses image to fit in eyes_roi
     cv::Mat scaled_sunglass;
-    const double scale_factor = (double)roi_size[1]/(double)sunglass.size().width;
     cv::resize(sunglass, scaled_sunglass, eyes_roi.size(), 1.0, 1.0, cv::INTER_LINEAR);
     showImage("Scaled Glasses", scaled_sunglass);
     
     // split the image channels for the sunglasses
-    cv::Mat sunglassRGB, sunglassRGBA[4], sunglass_mask, sunglass_channels[3];
-    cv::split(scaled_sunglass, sunglassRGBA);
+    cv::Mat sunglass_RGB, sunglass_RGB_channels[3], sunglass_RGBA[4], sunglass_mask, sunglass_mask_channels[3], eye_mask, eye_mask_channels[3];
+    cv::split(scaled_sunglass, sunglass_RGBA);
 
-    for(int i = 0; i < 3; i++){ // create mask rgb
-        sunglass_channels[i] = sunglassRGBA[3];
+    for(int i = 0; i < 3; i++){
+        sunglass_mask_channels[i] = sunglass_RGBA[3];   // create mask rgb
+        sunglass_RGB_channels[i] = sunglass_RGBA[i];    //create sunglass rgb
     }
-    cv::merge(sunglass_channels, 3, sunglass_mask);
+    cv::merge(sunglass_mask_channels, 3, sunglass_mask);
+    cv::merge(sunglass_RGB_channels, 3, sunglass_RGB);
     showImage("Mask", sunglass_mask);
+    showImage("RGB", sunglass_RGB);
+
     sunglass_mask /= 255;
-
-    for(int i = 0; i < 3; i++){//create sunglass rgb
-        sunglass_channels[i] = sunglassRGBA[i];
-    }
-    cv::merge(sunglass_channels, 3, sunglassRGB);
-    showImage("RGB", sunglassRGB);
-
-    std::cout << sunglass_mask.size() << ": " << eyes_roi.size() << std::endl;
+    std::cout << sunglass_mask.size() << " : " << eyes_roi.size() << std::endl;
 
     // create glasses masked by alpha and eye region masked by complement of alpha
-    cv::Mat sunglass_masked, eye_masked, eye_mask , eye_mask_channels[3];
-    sunglass_masked = sunglassRGB.clone();
+    cv::Mat sunglass_masked, eye_masked;
+    sunglass_masked = sunglass_RGB.clone();
     eye_masked = eyes_roi.clone();
 
     for(int i = 0; i < 3; i++){
-        eye_mask_channels[i] = 1 - (sunglassRGBA[3]/255);
+        eye_mask_channels[i] = 1 - (sunglass_mask_channels[i]/255);
     }
     cv::merge(eye_mask_channels, 3, eye_mask);
 
-    cv::multiply(sunglassRGB, sunglass_mask, sunglass_masked);
+    cv::multiply(sunglass_RGB, sunglass_mask, sunglass_masked);
     cv::multiply(eyes_roi, eye_mask, eye_masked);
     showImage("Eyes masked", eye_masked);
     showImage("Glasses masked", sunglass_masked);
