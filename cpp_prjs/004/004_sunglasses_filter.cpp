@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
@@ -12,6 +11,7 @@ void showImage(const std::string & win, cv::Mat & img){
 }
 
 int main(){
+    // loading images
     const std::string face_img_path = ".\\images\\musk.jpg";
     const std::string sunglass_img_path = ".\\images\\sunglass.png";
     cv::Mat musk = cv::imread(face_img_path, cv::IMREAD_UNCHANGED);
@@ -23,18 +23,26 @@ int main(){
     showImage("Elon Musk", musk);
     showImage("Sunglasses", sunglass);
 
+    // converting images to 32 bit float
+    cv::Mat musk_norm = musk.clone();
+    cv::Mat sunglass_norm = sunglass.clone();
+    double scale_factor = 1.0/255;
+    double shift = 0;
+    musk_norm.convertTo(musk_norm, CV_32FC3, scale_factor, shift);
+    sunglass_norm.convertTo(sunglass_norm, CV_32FC4, scale_factor, shift);
+
     double sunglasses_aspect_ratio = (double)sunglass.size().height/(double)sunglass.size().width;
 
     // find area on face for placement of glasses
-    const std::vector <int> roi_orig = {130, 150};
     const int roi_width = 270;
-    const std::vector <int> roi_size = {int(roi_width * sunglasses_aspect_ratio), roi_width};
-
-    std::cout << "ROI origin is: " << roi_orig[0] << " x " << roi_orig[1] << std::endl;
-    std::cout << "ROI size is: " << roi_size[0] << " x " << roi_size[1] << std::endl;
+    const cv::Rect roi = cv::Rect(130, 150, roi_width * sunglasses_aspect_ratio, roi_width);
+    std::cout << roi << std::endl;
+    
+    std::cout << "ROI origin is: " << roi.x << " x " << roi.y << std::endl;
+    std::cout << "ROI size is: " << roi.width << " x " << roi.height << std::endl;
     std::cout << "ROI aspect ratio: " << sunglasses_aspect_ratio << std::endl;
 
-    cv::Mat eyes_roi = musk(cv::Range(roi_orig[0], roi_orig[0] + roi_size[0]), cv::Range(roi_orig[1], roi_orig[1] + roi_size[1]));
+    cv::Mat eyes_roi = musk(cv::Range(roi.x, roi.x + roi.width), cv::Range(roi.y, roi.y + roi.height));
     showImage("Eyes", eyes_roi);
 
     // create scaled version of the sunglasses image to fit in eyes_roi
@@ -77,7 +85,7 @@ int main(){
     cv::add(eye_masked, sunglass_masked, composite);
     
     cv::Mat musk_glasses = musk.clone();
-    composite.copyTo(musk_glasses(cv::Range(roi_orig[0], roi_orig[0] + roi_size[0]), cv::Range(roi_orig[1], roi_orig[1] + roi_size[1])));
+    composite.copyTo(musk_glasses(cv::Range(roi.x, roi.x + roi.width), cv::Range(roi.y, roi.y + roi.height)));
     showImage("Musk with glasses", musk_glasses);
 
     return 0;
