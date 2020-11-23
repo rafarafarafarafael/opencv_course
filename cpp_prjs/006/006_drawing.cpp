@@ -40,5 +40,19 @@ int main(){
     cv::rectangle(img, pt2, pt3, MAGENTA, 3, cv::LINE_8);
     showImage("All with a rectangle now", img);
 
+    // drawing text onto the image
+    const cv::Scalar PURPLE = cv::Scalar(255, 0, 128);
+    const std::string msg = "I am stydying";
+    int font = cv::FONT_HERSHEY_COMPLEX;
+    int pixThick = 1;
+    const int pixHeight = 30; // desired pixel height of the text
+    int baseLine = 0;
+    double fontScale = cv::getFontScaleFromHeight(font, pixHeight, pixThick); // getting font scale based on pixel height
+    cv::Size textSize = cv::getTextSize(msg, font, fontScale, pixThick, &baseLine); // getting total text size
+    cv::Point orig = cv::Point((img.size().width - textSize.width)/2, (img.size().height - textSize.height)/2); // finding text position centered on image
+
+    cv::putText(img, msg, orig, font, fontScale, PURPLE, pixThick, cv::LINE_AA);
+    showImage("And text...", img);
+
     return 0;
 }
