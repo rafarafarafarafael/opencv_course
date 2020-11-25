@@ -19,13 +19,15 @@ int main(){
         std::cout << "Error opening video stream or file!" << std::endl;
     }
 
+    int key = -1; // stores the key pressed as the video is displayed 
     while(cap.isOpened()){
         cap >> frame;
-        if(frame.empty()){
+        if(frame.empty() || key != -1){
+            cv::destroyAllWindows();
             break;
         }
         cv::imshow("Frame", frame);
-        cv::waitKey(1);
+        key = cv::waitKey(1);
     }
     
     return 0;
