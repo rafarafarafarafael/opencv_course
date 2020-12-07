@@ -35,6 +35,7 @@ int main(){
     while(key == -1 && cap.isOpened()){
         cap >> frame;
         if(frame.empty() || key != -1){
+            cap.release();
             cv::destroyAllWindows();
             break;
         }
