@@ -8,7 +8,7 @@
 // global variables
 int max_scale_up = 100;
 int scale_factor = 1;
-int scale_type = 0;
+int scale_type = 1;
 int max_type = 1;
 const std::string window_name = "Resize Image";
 const std::string trackbar_value = "Scale";
@@ -27,7 +27,7 @@ int main(){
     cv::createTrackbar(trackbar_value, window_name, &scale_factor, max_scale_up, scaleImage);
     cv::createTrackbar(trackbar_type, window_name, &scale_type, max_type, scaleImage);
 
-    // not sure why this one...
+    // not sure why this one... guess to initialize image size (?)
     scaleImage(25, 0);
 
     while(true){
