@@ -6,7 +6,10 @@ project(thresholding)
 set(CMAKE_CXX_STANDARD 14)
 
 #Creating a Cmake variable that points to location of CVConfig files.
-set(OpenCV_DIR "C:\\opencv-4.1.0\\")
+set(OpenCV_DIR "C:/opencv-4.1.0/")
+
+#creating a cmake variable to point to user libraries
+set(Util_Dir "C:/Users/rafa/Documents/repos/opencv_course/cpp_prjs/lib/")
 
 #Displays variable. Helpful for debug
 message(STATUS \({OpenCV_DIR}) 
@@ -18,10 +21,12 @@ find_package(OpenCV COMPONENTS core imgproc highgui imgcodecs REQUIRED)
 message(STATUS \({OpenCV_LIBS}) 
 
 #Creates executable thresholding. Include all CPP files that must be compiled (space separated)
-add_executable(thresholding 011_thresholding.cpp) 
+set(SOURCES 011_thresholding.cpp ${Util_Dir}show_image.cpp)
+add_executable(thresholding ${SOURCES}) 
 
 #Include directory for OpenCV headers
-target_include_directories(thresholding PRIVATE "C:\\opencv-4.1.0\\include\\")
+target_include_directories(thresholding PRIVATE "C:/opencv-4.1.0/include/")
+target_include_directories(thresholding PUBLIC ${Util_Dir})
 
 #Link various shared libraries pointed by OpenCV_LIBS
 target_link_libraries(thresholding PUBLIC ${OpenCV_LIBS})
