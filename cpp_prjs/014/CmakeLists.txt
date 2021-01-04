@@ -15,7 +15,7 @@ set(Util_Dir "C:/Users/rafa/Documents/repos/opencv_course/cpp_prjs/lib/")
 message(STATUS \({OpenCV_DIR}) 
 
 #Searches for libraries. Command fails if libs not found
-find_package(OpenCV COMPONENTS core highgui REQUIRED)
+find_package(OpenCV COMPONENTS core imgproc highgui REQUIRED)
 
 #Displays libraries that are found and will be linked
 message(STATUS \({OpenCV_LIBS}) 
