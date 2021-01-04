@@ -15,11 +15,16 @@ int main(){
 
     int kernel_size = 10;
     cv::Mat element = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(2 * kernel_size + 1, 2 * kernel_size + 1), cv::Point(kernel_size, kernel_size));
-    showImage("Kernel", element);
+    std::cout << element <<std::endl;
 
+    // erosion step followed by dilation
     cv::Mat img_eroded = img_opening.clone();
     cv::erode(img_opening, img_eroded, element, cv::Point(-1, -1), 1);
     showImage("Eroded", img_eroded);
+
+    cv::Mat img_eroded_dilated = img_eroded.clone();
+    cv::dilate(img_eroded, img_eroded_dilated, element, cv::Point(-1, -1), 1);
+    showImage("Eroded + Dilated = Open", img_eroded_dilated);
 
     return 0;
 }
