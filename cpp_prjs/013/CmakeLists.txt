@@ -10,9 +10,9 @@ set(OpenCV_DIR "C:/opencv-4.1.0/")
 
 #creating a cmake variable to point to user libraries
 set(Util_Dir "C:/Users/rafa/Documents/repos/opencv_course/cpp_prjs/lib/")
+message(STATUS "Copying H264 dll...")
 set(H264_DLL "C:/Users/rafa/Documents/repos/openh264/openh264-1.8.0-win64.dll")
-message(STATUS "copying dll")
-file(COPY ${H264_DLL} DESTINATION ${PROJECT_BINARY_DIR})
+file(INSTALL ${H264_DLL} DESTINATION ${CMAKE_BINARY_DIR}/Release)
 
 #Displays variable. Helpful for debug
 message(STATUS \({OpenCV_DIR}) 
