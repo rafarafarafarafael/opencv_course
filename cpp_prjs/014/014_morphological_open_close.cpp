@@ -15,9 +15,10 @@ int main(){
 
     int kernel_size = 10;
     cv::Mat element = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(2 * kernel_size + 1, 2 * kernel_size + 1), cv::Point(kernel_size, kernel_size));
-    std::cout << element <<std::endl;
+    //std::cout << element <<std::endl;
 
-    // erosion step followed by dilation
+    // morphological opening
+    // method 1: erosion step followed by dilation
     cv::Mat img_eroded = img_opening.clone();
     cv::erode(img_opening, img_eroded, element, cv::Point(-1, -1), 1);
     showImage("Eroded", img_eroded);
@@ -25,6 +26,13 @@ int main(){
     cv::Mat img_eroded_dilated = img_eroded.clone();
     cv::dilate(img_eroded, img_eroded_dilated, element, cv::Point(-1, -1), 1);
     showImage("Eroded + Dilated = Open", img_eroded_dilated);
+
+    // method 2: morphologyEX function
+    int opening_size = 3;
+    element = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(2 * opening_size + 1, 2 * opening_size + 1), cv::Point(opening_size, opening_size));
+    cv::Mat img_morph_opening;
+    cv::morphologyEx(img_opening, img_morph_opening, cv::MORPH_OPEN, element, cv::Point(-1, -1), 3);
+    showImage("Morph Opening", img_morph_opening);
 
     return 0;
 }
