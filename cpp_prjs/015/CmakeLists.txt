@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.16) #Change the Cmake version number according to your installed version
+
+#Name of the project. I have named it "connected_blobs"
+project(connected_blobs) 
+
+set(CMAKE_CXX_STANDARD 14)
+
+#Creating a Cmake variable that points to location of CVConfig files.
+set(OpenCV_DIR "C:/opencv-4.1.0/")
+
+#creating a cmake variable to point to user libraries
+set(Util_Dir "C:/Users/rafa/Documents/repos/opencv_course/cpp_prjs/lib/")
+
+#Displays variable. Helpful for debug
+message(STATUS \({OpenCV_DIR}) 
+
+#Searches for libraries. Command fails if libs not found
+find_package(OpenCV COMPONENTS core imgproc highgui imgcodecs REQUIRED)
+
+#Displays libraries that are found and will be linked
+message(STATUS \({OpenCV_LIBS}) 
+
+#Creates executable connected_blobs. Include all CPP files that must be compiled (space separated)
+set(SOURCES 015_connected_blobs.cpp ${Util_Dir}show_image.cpp)
+add_executable(connected_blobs ${SOURCES}) 
+
+#Include directory for OpenCV headers
+target_include_directories(connected_blobs PRIVATE "C:/opencv-4.1.0/include/")
+target_include_directories(connected_blobs PUBLIC ${Util_Dir})
+
+#Link various shared libraries pointed by OpenCV_LIBS
+target_link_libraries(connected_blobs PUBLIC ${OpenCV_LIBS})
