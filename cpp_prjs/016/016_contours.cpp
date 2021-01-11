@@ -8,6 +8,12 @@
 
 
 int main(){
+    std::string img_path = ".\\images\\Contour.png";
+    cv::Mat img = cv::imread(img_path);
+    cv::Mat img_copy = img.clone(), img_gray;
+
+    cv::cvtColor(img, img_gray, cv::COLOR_BGR2GRAY);
+    showImage("Grayscale", img_gray);
 
     return 0;
 }
