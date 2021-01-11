@@ -22,6 +22,20 @@ int main(){
     cv::findContours(img_gray, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE);
     std::cout << "Number of contours found: " << contours.size() << std::endl;
 
+    cv::drawContours(img, contours, -1, cv::Scalar(0, 255, 0), 6);
+    showImage("Contours", img);
+
+    // find external contours
+    cv::findContours(img_gray, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    std::cout << "Number of external contours found: " << contours.size() << std::endl;
+
+    img = img_copy.clone();
+    cv::drawContours(img, contours, -1, cv::Scalar(255, 0, 0), 6);
+    showImage("External Contours", img);
+
+    // mark a specific contour
+    cv::drawContours(img, contours, 0, cv::Scalar(0, 0, 255), 6);
+    showImage("First Contour Found", img);
 
     return 0;
 }
