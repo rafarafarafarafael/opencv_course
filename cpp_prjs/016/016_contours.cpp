@@ -37,5 +37,43 @@ int main(){
     cv::drawContours(img, contours, 0, cv::Scalar(0, 0, 255), 6);
     showImage("First Contour Found", img);
 
+    // center of mass and centroid
+    // find all the contours
+    cv::findContours(img_gray, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE);
+    cv::drawContours(img, contours, -1, cv::Scalar(0, 255, 0), 3);
+
+    cv::Moments M;
+    int x, y;
+    for(size_t i = 0; i < contours.size(); i++){
+        // find moments of the contours
+        // and calculate the conter of mass
+        M = cv::moments(contours[i]);
+        x = int(M.m10/double(M.m00));
+        y = int(M.m01/double(M.m00));
+        // mark the center
+        cv::circle(img, cv::Point(x, y), 10, cv::Scalar(255, 0, 0), -1);
+        // mark the contour number
+        cv::putText(img, std::to_string(i + 1), cv::Point(x + 40, y + 10), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
+        // calculate area and perimeter of contours
+        double area = cv::contourArea(contours[i]);
+        double perimeter = cv::arcLength(contours[i], true);
+        std::cout << "Are of contour " << i + 1 << " = " << area << ". Perimeter of contour " << i + 1 << " = " << perimeter << "." << std::endl;
+        // draw bbox
+        cv::Rect rect = cv::boundingRect(contours[i]);
+        cv::rectangle(img, rect, cv::Scalar(255, 0, 255), 2);
+        // draw rotated bbox
+        cv::RotatedRect rot_rect = cv::minAreaRect(contours[i]);
+        cv::Point2f rect_points[4];
+        cv::Mat box_points_2f, box_points_cov;
+
+        cv::boxPoints(rot_rect, box_points_2f);
+        box_points_2f.assignTo(box_points_cov, CV_32S);
+        cv::polylines(img, box_points_cov, true, cv::Scalar(255, 255, 0), 2);
+    }
+
+    showImage("Centroids", img);
+
+
+
     return 0;
 }
