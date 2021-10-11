@@ -5,3 +5,4 @@ notebooks
 *.code-workspace
 *.obj
 code
+CMakeFiles
