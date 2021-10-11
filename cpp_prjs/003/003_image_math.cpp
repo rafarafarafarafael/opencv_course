@@ -42,8 +42,12 @@ int main(){
     cv::Mat img_brightness_high = img.clone();
     cv::add(img_brightness_high, brightness_factor, img_brightness_high);
     // show the channel splitting option as well
-
+    cv::Mat img_brightness_chans[3];
+    cv::split(img_brightness_high, img_brightness_chans);
     showImage("Brighter Image", img_brightness_high);
+    showImage("Blue", img_brightness_chans[0]);
+    showImage("Green", img_brightness_chans[1]);
+    showImage("Red", img_brightness_chans[2]);
     
     return 0;
 }
