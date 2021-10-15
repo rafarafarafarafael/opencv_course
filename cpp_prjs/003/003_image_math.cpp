@@ -23,6 +23,11 @@ int main(){
     // converting image to 32 bit/channel float
     img_normalized.convertTo(img_normalized, CV_32FC3, scaling_factor, shift);
     showImage("Normalized", img_normalized);
+    //  write EXR image to load in Photoshop (out of curiosity)
+    std::vector<int> exr_parms;
+    exr_parms.push_back(cv::IMWRITE_EXR_TYPE);
+    exr_parms.push_back(cv::IMWRITE_EXR_TYPE_FLOAT);
+    cv::imwrite(".\\images\\boy.exr", img_normalized, exr_parms);
 
     // converitng back to uint
     cv::Mat img_uint = img_normalized.clone();
