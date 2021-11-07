@@ -1,5 +1,6 @@
 .vscode
 build
+build_recipe.txt
 cpp_prjs\images
 notebooks
 *.code-workspace
