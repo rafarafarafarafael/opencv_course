@@ -21,12 +21,12 @@ int main(){
     cv::Mat sunglass_RGB_channels[3], sunglass_RGBA_channels[4], sunglass_RGB, sunglass_mask;
     cv::split(sunglass, sunglass_RGBA_channels);
     for(int i = 0; i < 3; i++){
-        sunglass_RGB_channels[i] = sunglass_RGBA_channels[3];
+        sunglass_RGB_channels[i] = sunglass_RGBA_channels[3]; // putting the alpha channel in the all three channels of sunglass_RGB_channels
     }
     cv::merge(sunglass_RGB_channels, 3, sunglass_mask); // no need to convert to normalized values as in the arithmetic version
 
     for(int i = 0; i < 3; i++){
-        sunglass_RGB_channels[i] = sunglass_RGBA_channels[i];
+        sunglass_RGB_channels[i] = sunglass_RGBA_channels[i]; // putting the color channels in the all three channels of sunglass_RGB_channels
     }
     cv::merge(sunglass_RGB_channels, 3, sunglass_RGB);
 
@@ -53,8 +53,11 @@ int main(){
     // and composite them
     cv::Mat eyes_roi_with_glasses = eyes_roi.clone();
     cv::bitwise_or(eyes_roi_masked, sunglass_RGB_scaled_masked, eyes_roi_with_glasses);
+    cv::Mat eyes_roi_plus_glasses = eyes_roi_masked.clone();
+    eyes_roi_plus_glasses += sunglass_RGB_scaled_masked;
 
     showImage("Eyes with glasses", eyes_roi_with_glasses);
+    showImage("Eyes plus glasses", eyes_roi_plus_glasses);
 
     // replace section with new ROI
     cv::Mat musk_with_glasses = musk.clone();
