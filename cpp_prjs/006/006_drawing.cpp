@@ -46,10 +46,10 @@ int main(){
     int font = cv::FONT_HERSHEY_COMPLEX;
     int pixThick = 1;
     const int pixHeight = 30; // desired pixel height of the text
-    int baseLine = 0;
+    int baseLine = 0; // will contain the height in pixels from bottom of text to the baseline
     double fontScale = cv::getFontScaleFromHeight(font, pixHeight, pixThick); // getting font scale based on pixel height
     cv::Size textSize = cv::getTextSize(msg, font, fontScale, pixThick, &baseLine); // getting total text size
-    cv::Point orig = cv::Point((img.size().width - textSize.width)/2, (img.size().height - textSize.height)/2); // finding text position centered on image
+    cv::Point orig = cv::Point((img.size().width - textSize.width)/2, ((img.size().height - textSize.height)/2) - baseLine); // finding text position centered on image
 
     cv::putText(img, msg, orig, font, fontScale, PURPLE, pixThick, cv::LINE_AA);
     showImage("And text...", img);
