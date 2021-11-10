@@ -23,6 +23,9 @@ message(STATUS \({OpenCV_LIBS})
 #Creates executable webcam. Include all CPP files that must be compiled (space separated)
 add_executable(webcam 004_01_webcam.cpp) 
 
+#set the name of the executable
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "main")
+
 #Include directory for OpenCV headers
 target_include_directories(webcam PRIVATE "C:\\opencv-4.1.0\\include\\")
 target_include_directories(webcam PUBLIC ${Util_Dir})
