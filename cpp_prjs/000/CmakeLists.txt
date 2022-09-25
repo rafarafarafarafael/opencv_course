@@ -6,10 +6,10 @@ project(base_project)
 set(CMAKE_CXX_STANDARD 14)
 
 #Creating a Cmake variable that points to location of CVConfig files.
-set(OpenCV_DIR "C:\\opencv-4.1.0\\") 
+set(OpenCV_DIR "C:\\opencv-4.6.0\\build\\") 
 
 #creating a cmake variable to point to user libraries
-set(Util_Dir "C:/Users/rafa/Documents/repos/opencv_course/cpp_prjs/lib/")
+set(Util_Dir "C:/Users/rafae/Documents/repos/opencv_course/cpp_prjs/lib/")
 
 #Displays variable. Helpful for debug
 message(STATUS \({OpenCV_DIR}) 
@@ -24,7 +24,7 @@ message(STATUS \({OpenCV_LIBS})
 add_executable(base_project 000_base_project.cpp ${Util_Dir}show_image.cpp) 
 
 #Include directory for OpenCV headers
-target_include_directories(base_project PRIVATE "C:\\opencv-4.1.0\\include\\")
+target_include_directories(base_project PRIVATE "${OpenCV_DIR}\\include\\")
 target_include_directories(base_project PUBLIC ${Util_Dir})
 
 target_link_libraries(base_project PUBLIC ${OpenCV_LIBS}) 

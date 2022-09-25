@@ -2,6 +2,7 @@ import os
 import sys
 import pathlib as pl
 import argparse as ap
+import re
 
 def init_argparse() -> ap.ArgumentParser:
     parser = ap.ArgumentParser(usage = '%(prog)s [Project Number]', description='Enter the project number to compile and run')
@@ -27,6 +28,14 @@ def main() -> None:
     full_path.append(args.prj_num)
     path_str = os.path.join(*full_path)
 
+    # load CmakeLists.tx and extract project name
+    proj_name = ''
+    with open(path_str + '\\CmakeLists.txt', 'r') as f:
+        my_text = ' '.join(f.readlines())
+        m = re.search('project\(\w+\)', my_text)
+        if m:
+            proj_name = m.group(0)[8:-1]
+    
     # creating build directory path
     full_path = []
     full_path.append(path_str)
@@ -37,9 +46,10 @@ def main() -> None:
     full_path = []
     full_path.append(build_path_str)
     full_path.append('Release')
-    full_path.append('main.exe')
+    full_path.append(proj_name + '.exe')
     exec_path_str = os.path.join(*full_path)
 
+    # print(build_path_str)
     if(pl.Path(path_str).exists()):
         os.system('cd {} && cmake .. && cmake --build . --config Release && cd {} && {}'.format(build_path_str, pl.Path(path_str).resolve().parent, exec_path_str))
 
@@ -54,3 +64,4 @@ if __name__ == '__main__':
 # && cmake --build . --config Release 
 # && cd ..\..\ 
 # && .\006\build\Release\main.exe
+#regex to match the project line and extract the name of the project "project\(\w+\)"gm
