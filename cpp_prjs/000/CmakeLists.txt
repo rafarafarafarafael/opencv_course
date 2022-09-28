@@ -1,31 +1,34 @@
 cmake_minimum_required(VERSION 3.16) #Change the Cmake version number according to your installed version
 
-#Name of the project. I have named it "base_project"
+#Name of the project. I have named it "read_image"
 project(base_project) 
 
 set(CMAKE_CXX_STANDARD 14)
 
 #Creating a Cmake variable that points to location of CVConfig files.
-set(OpenCV_DIR "C:\\opencv-4.6.0\\build\\") 
+set(OpenCV_DIR "C:/opencv-4.6.0/build/") 
 
 #creating a cmake variable to point to user libraries
 set(Util_Dir "C:/Users/rafae/Documents/repos/opencv_course/cpp_prjs/lib/")
+set(Sources ${Util_Dir}img_type.cpp ${Util_Dir}show_image.cpp)
 
 #Displays variable. Helpful for debug
-message(STATUS \({OpenCV_DIR}) 
+message(STATUS \{OpenCV_DIR}) 
 
 #Searches for libraries. Command fails if libs not found
 find_package(OpenCV COMPONENTS core imgproc highgui imgcodecs REQUIRED) 
 
 #Displays libraries that are found and will be linked
-message(STATUS \({OpenCV_LIBS}) 
+message(STATUS \{OpenCV_LIBS}) 
 
 #Creates executable base_project. Include all CPP files that must be compiled (space separated)
-add_executable(base_project 000_base_project.cpp ${Util_Dir}show_image.cpp) 
+add_executable(base_project 000_base_project.cpp ${Sources}) 
 
 #Include directory for OpenCV headers
-target_include_directories(base_project PRIVATE "${OpenCV_DIR}\\include\\")
+target_include_directories(base_project PRIVATE "${OpenCV_DIR}/include/")
+
+#Include directory for utility functions
 target_include_directories(base_project PUBLIC ${Util_Dir})
 
-target_link_libraries(base_project PUBLIC ${OpenCV_LIBS}) 
 #Link various shared libraries pointed by OpenCV_LIBS
+target_link_libraries(base_project PUBLIC ${OpenCV_LIBS}) 
