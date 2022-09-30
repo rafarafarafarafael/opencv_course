@@ -20,6 +20,29 @@ int main(){
 
     showImage("Original", orig_img);
 
+    // split the image into it's channels and display them
+    cv::Mat img_split[3];
+    cv::split(orig_img, img_split);
+
+    showImage("RED", img_split[2]);
+    showImage("GREEN", img_split[1]);
+    showImage("BLUE", img_split[0]);
+
+    // modify one of the channels, merge it all back together and display
+    img_split[0] *= 2;
+
+    std::vector <cv::Mat> channels_vector; // merge function takes a vector of images, rather than an image array
+    channels_vector.push_back(img_split[0]);
+    channels_vector.push_back(img_split[1]);
+    channels_vector.push_back(img_split[2]);
+    
+    cv::Mat img_merged;
+    cv::merge(channels_vector, img_merged);
+    // another option would be:
+    // cv::merge(img_split, 3, img_merged)
+    showImage("Merged", img_merged);
+    std::cout << "number of channels in img_split: " << sizeof(img_split) / sizeof(img_split[0]) << std::endl;
+
     // create a slice or cropped area of that image
     cv::Mat img_slice = orig_img(cv::Range(40, 200), cv::Range(170, 320));
     showImage("Slice", img_slice);
@@ -74,6 +97,8 @@ int main(){
     jpeg_params.push_back(cv::IMWRITE_JPEG_QUALITY);
     jpeg_params.push_back(100);
 
+    // uncomment this section to write out the images
+    /*
     cv::imwrite(".\\images\\slice.jpg", img_slice, jpeg_params);
     cv::imwrite(".\\images\\another_slice.jpg", another_slice, jpeg_params);
     cv::imwrite(".\\images\\copy.jpg", orig_copy, jpeg_params);
@@ -82,6 +107,6 @@ int main(){
     cv::imwrite(".\\images\\scale_by_size.jpg", img_scale_size, jpeg_params);
     cv::imwrite(".\\images\\scale_by_factor.jpg", img_scale_factor, jpeg_params);
     cv::imwrite(".\\images\\red_mask.jpg", red_mask, jpeg_params);
-
+    */
     return 0;
 }
