@@ -28,5 +28,20 @@ int main(){
     std::cout << zero << std::endl;
     showImage(win_name, zero);
 
+    // modify color pixel one at a time
+    zero = cv::imread(image_path, cv::IMREAD_COLOR);
+
+    zero.at<cv::Vec3b>(0, 0) = cv::Vec3b(255, 255, 0);
+    zero.at<cv::Vec3b>(1, 1) = cv::Vec3b(0, 255, 255);
+    zero.at<cv::Vec3b>(2, 2) = cv::Vec3b(255, 0, 255);
+
+    showImage("Zero with color pixels", zero);
+
+    // modify ROI (region of interest)
+    test_image(cv::Range(0, 100), cv::Range(0, 100)).setTo(cv::Scalar(255, 0, 0));
+    test_image(cv::Range(101, 200), cv::Range(0, 100)).setTo(cv::Scalar(0, 255, 0));
+
+    showImage("Modified image", test_image);
+
     return 0;
 }
