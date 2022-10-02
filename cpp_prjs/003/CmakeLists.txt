@@ -6,7 +6,7 @@ project(math_operations)
 set(CMAKE_CXX_STANDARD 14)
 
 #Creating a Cmake variable that points to location of CVConfig files.
-set(OpenCV_DIR "C:\\opencv-4.1.0\\") 
+set(OpenCV_DIR "C:/opencv-4.6.0/build/")
 
 #Displays variable. Helpful for debug
 message(STATUS \({OpenCV_DIR}) 
@@ -21,7 +21,7 @@ message(STATUS \({OpenCV_LIBS})
 add_executable(math_operations 003_image_math.cpp) 
 
 #Include directory for OpenCV headers
-target_include_directories(math_operations PRIVATE "C:\\opencv-4.1.0\\include\\") 
+target_include_directories(math_operations PRIVATE "${OpenCV_DIR}/include/")
 
 target_link_libraries(math_operations PUBLIC ${OpenCV_LIBS}) 
 #Link various shared libraries pointed by OpenCV_LIBS

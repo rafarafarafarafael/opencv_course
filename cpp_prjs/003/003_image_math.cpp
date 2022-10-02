@@ -24,6 +24,7 @@ int main(){
     img_normalized.convertTo(img_normalized, CV_32FC3, scaling_factor, shift);
     showImage("Normalized", img_normalized);
     //  write EXR image to load in Photoshop (out of curiosity)
+    // had to add environment variable OPENCV_IO_ENABLE_OPENEXR=1 to bypass potential security flaw
     std::vector<int> exr_parms;
     exr_parms.push_back(cv::IMWRITE_EXR_TYPE);
     exr_parms.push_back(cv::IMWRITE_EXR_TYPE_FLOAT);
