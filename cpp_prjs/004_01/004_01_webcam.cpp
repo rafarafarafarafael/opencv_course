@@ -12,7 +12,7 @@
 int main(){
     double scale = 2.0;
     cv::CascadeClassifier faceCascade;
-    faceCascade.load("C:\\opencv-4.1.0\\etc\\haarcascades\\haarcascade_eye_tree_eyeglasses.xml");
+    faceCascade.load("C:\\opencv-4.6.0\\build\\etc\\haarcascades\\haarcascade_eye_tree_eyeglasses.xml");
 
     cv::VideoCapture capture(0);
     if(!capture.isOpened()){

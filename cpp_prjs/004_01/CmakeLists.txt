@@ -6,10 +6,11 @@ project(webcam)
 set(CMAKE_CXX_STANDARD 14)
 
 #Creating a Cmake variable that points to location of CVConfig files.
-set(OpenCV_DIR "C:\\opencv-4.1.0\\") 
+set(OpenCV_DIR "C:/opencv-4.6.0/build/")
 
 #creating a cmake variable to point to user libraries
-set(Util_Dir "C:/Users/rafa/Documents/repos/opencv_course/cpp_prjs/lib/")
+set(Util_Dir "C:/Users/rafae/Documents/repos/opencv_course/cpp_prjs/lib/")
+set(Sources ${Util_Dir}img_type.cpp ${Util_Dir}show_image.cpp)
 
 #Displays variable. Helpful for debug
 message(STATUS \({OpenCV_DIR}) 
@@ -21,13 +22,15 @@ find_package(OpenCV COMPONENTS core imgproc highgui imgcodecs objdetect REQUIRED
 message(STATUS \({OpenCV_LIBS}) 
 
 #Creates executable webcam. Include all CPP files that must be compiled (space separated)
-add_executable(webcam 004_01_webcam.cpp) 
+add_executable(webcam 004_01_webcam.cpp ${Sources}) 
 
 #set the name of the executable
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "main")
+#set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "main")
 
 #Include directory for OpenCV headers
-target_include_directories(webcam PRIVATE "C:\\opencv-4.1.0\\include\\")
+target_include_directories(webcam PRIVATE "${OpenCV_DIR}/include/")
+
+#Include directory for utility functions
 target_include_directories(webcam PUBLIC ${Util_Dir})
 
 #Link various shared libraries pointed by OpenCV_LIBS
