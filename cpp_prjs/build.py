@@ -41,6 +41,8 @@ def main() -> None:
     full_path.append(path_str)
     full_path.append('build')
     build_path_str = os.path.join(*full_path)
+    if not os.path.exists(build_path_str):
+        os.mkdir(build_path_str)
 
     # creating executable directory path
     full_path = []
