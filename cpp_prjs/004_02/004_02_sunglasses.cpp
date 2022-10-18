@@ -20,7 +20,7 @@ int main(){
     glass_png.convertTo(glass_png, CV_32F);
     glass_png /= 255.0;
     // Resize image to fit over the eye region
-    cv::resize(glass_png, glass_png, cv::Size(), 0.5, 0.5);
+    cv::resize(glass_png, glass_png, cv::Size(300, 100), 1.0, 1.0); // fix the resize to be proportional
     showImage("Sunglasses", glass_png);
     std::cout << "image size: " << glass_png.size() << std::endl;
     std::cout << "image channels: " << glass_png.channels() << std::endl;
@@ -45,11 +45,37 @@ int main(){
     // Naive glasses placement
     // Make a copy of face image
     cv::Mat face_with_glass_naive = face_image.clone();
-    cv::Mat roi_face = face_with_glass_naive(cv::Range(150, 250), cv::Range(140, 440));
+    cv::Mat roi_face = face_with_glass_naive(cv::Range(150, 250), cv::Range(140, 440)); // fix the ROI to match glasses size and aspect ratio
     // Replace face ROI with sunglasses
     glass_rgb.copyTo(face_with_glass_naive(cv::Range(150, 150+glass_rgb.size().height), cv::Range(140, 140+glass_rgb.size().width)));
-    //showImage("ROI face", roi_face);
     showImage("Face with glasses naive", face_with_glass_naive);
+
+    // Make an RGB mask
+    cv::Mat glass_mask_rgb;
+    cv::Mat glass_mask_channels[3] = {glass_mask, glass_mask, glass_mask};
+    cv::merge(glass_mask_channels, 3, glass_mask_rgb);
+    glass_mask_rgb /= 255.0;
+
+    // Make a copy of the face
+    cv::Mat face_with_glass_arithmetic = face_image.clone();
+
+    // GEt the eye region from the image
+    cv::Mat eye_roi = face_with_glass_arithmetic(cv::Range(150, 250), cv::Range(140, 440));
+    cv::Mat eye_roi_channels[3];
+    cv::split(eye_roi, eye_roi_channels);
+    cv::Mat masked_eye_channels[3], masked_eye;
+
+    for(int i = 0; i < 3; i++){
+        // use the mask to create the masked eye region
+        cv::multiply(eye_roi_channels[i], (1 - glass_mask_channels[i]), masked_eye_channels[i]);
+    }
+    // std::cout << "Glass mask size: " << glass_mask.size() << std::endl;
+    // std::cout << "Eye ROI size: " << eye_roi.size() << std::endl;
+
+    cv::merge(masked_eye_channels, 3, masked_eye);
+    showImage("Masked Eye ROI", masked_eye);
+
+
 
     return 0;
 }
