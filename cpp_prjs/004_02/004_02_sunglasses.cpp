@@ -54,7 +54,6 @@ int main(){
     cv::Mat glass_mask_rgb;
     cv::Mat glass_mask_channels[3] = {glass_mask, glass_mask, glass_mask};
     cv::merge(glass_mask_channels, 3, glass_mask_rgb);
-    glass_mask_rgb /= 255.0;
 
     // Make a copy of the face
     cv::Mat face_with_glass_arithmetic = face_image.clone();
@@ -73,9 +72,21 @@ int main(){
     // std::cout << "Eye ROI size: " << eye_roi.size() << std::endl;
 
     cv::merge(masked_eye_channels, 3, masked_eye);
+
+    cv::Mat masked_glass;
+    cv::multiply(glass_rgb, glass_mask_rgb, masked_glass);
+
     showImage("Masked Eye ROI", masked_eye);
+    showImage("Glass area masked", masked_glass);
 
+    // Combine both images
+    cv::Mat eye_roi_final;
+    cv::add(masked_eye, masked_glass, eye_roi_final);
+    showImage("Eye ROI final", eye_roi_final);
 
+    // Create final image
+    eye_roi_final.copyTo(face_with_glass_arithmetic(cv::Range(150, 150+glass_rgb.size().height), cv::Range(140, 140+glass_rgb.size().width)));
+    showImage("Final montage", face_with_glass_arithmetic);
 
     return 0;
 }
