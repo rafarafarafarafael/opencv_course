@@ -2,13 +2,14 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
+#include "../lib/show_image.hpp"
 
-void showImage(const std::string & win, cv::Mat & img){
-    cv::namedWindow(win);
-    cv::imshow(win, img);
-    cv::waitKey();
-    cv::destroyAllWindows();
-}
+// void showImage(const std::string & win, cv::Mat & img){
+//     cv::namedWindow(win);
+//     cv::imshow(win, img);
+//     cv::waitKey();
+//     cv::destroyAllWindows();
+// }
 
 int main(){
     const std::string img_path = ".\\images\\boy.jpg";
