@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(OpenCV_DIR "C:/opencv-4.6.0/build/")
 
 #creating a cmake variable to point to user libraries
-set(Util_Dir "C:/Users/rafae/Documents/repos/opencv_course/cpp_prjs/lib/")
+set(Util_Dir "C:/Users/rafa/Documents/repos/opencv_course/cpp_prjs/lib/")
 set(Sources ${Util_Dir}img_type.cpp ${Util_Dir}show_image.cpp)
 
 #Displays variable. Helpful for debug
